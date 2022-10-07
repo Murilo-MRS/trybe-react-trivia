@@ -1,7 +1,7 @@
 import React from 'react';
 import '../App.css';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
+// import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
 import logo from '../trivia.png';
 
@@ -88,8 +88,9 @@ Login.propTypes = {
   }).isRequired,
 }.isRequired;
 
-const mapDispatchToProps = (dispatch) => ({
-  fetchToken: () => dispatch(fetchApiAction()),
-});
+// const mapDispatchToProps = (dispatch) => ({
+//   fetchToken: () => dispatch(fetchApiAction()),
+// });
 
-export default connect(null, mapDispatchToProps)(Login);
+// export default connect(null, mapDispatchToProps)(Login);
+export default Login;
