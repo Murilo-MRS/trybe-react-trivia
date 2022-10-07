@@ -1,9 +1,10 @@
 import React from 'react';
 import '../App.css';
 import PropTypes from 'prop-types';
-// import { connect } from 'react-redux';
+import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
 import logo from '../trivia.png';
+import { loginAction } from '../redux/actions';
 
 class Login extends React.Component {
   state = {
@@ -17,6 +18,10 @@ class Login extends React.Component {
     event.preventDefault();
     this.fetchToken();
     this.setState({ playButton: true });
+
+    // const { name, email } = this.state;
+    const { dispatch } = this.props;
+    dispatch(loginAction(this.state));
   };
 
   fetchToken = async () => {
@@ -92,5 +97,5 @@ Login.propTypes = {
 //   fetchToken: () => dispatch(fetchApiAction()),
 // });
 
-// export default connect(null, mapDispatchToProps)(Login);
-export default Login;
+export default connect()(Login);
+/* export default Login; */
