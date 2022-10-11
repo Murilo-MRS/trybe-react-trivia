@@ -5,7 +5,7 @@ import Header from '../components/Header';
 
 class Feedback extends Component {
   render() {
-    const { assertions } = this.props;
+    const { assertions, score } = this.props;
     const three = 3;
     return (
       <div>
@@ -15,6 +15,8 @@ class Feedback extends Component {
           assertions >= three ? <h1 data-testid="feedback-text">Well Done!</h1>
             : <h1 data-testid="feedback-text">Could be better...</h1>
         }
+        <h1 data-testid="feedback-total-score">{score}</h1>
+        <h1 data-testid="feedback-total-question">{assertions}</h1>
       </div>
     );
   }
@@ -26,7 +28,7 @@ Feedback.propTypes = {
 
 const mapStateToProps = (state) => ({
   assertions: state.player.assertions,
-
+  score: state.player.score,
 });
 
 export default connect(mapStateToProps)(Feedback);
