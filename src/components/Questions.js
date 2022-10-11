@@ -50,18 +50,23 @@ class Questions extends Component {
   };
 
   handleScore = (difficulty) => {
+    const pointsBase = 10;
+    const pointsEasy = 1;
+    const pointsMedium = 2;
+    const pointsHard = 3;
+
     const { score } = this.state;
     switch (difficulty) {
     case 'easy':
-      this.setState({ score: score + (10 + (1)) });
+      this.setState({ score: score + (pointsBase + (pointsEasy)) });
       // sumScore(score);
       break;
     case 'medium':
-      this.setState({ score: score + (10 + (2)) });
+      this.setState({ score: score + (pointsBase + (pointsMedium)) });
       // sumScore(score);
       break;
     case 'hard':
-      this.setState({ score: score + (10 + (3)) });
+      this.setState({ score: score + (pointsBase + (pointsHard)) });
       // sumScore(score);
       break;
     default:
@@ -99,7 +104,7 @@ class Questions extends Component {
 
   render() {
     const { results, counter, loading, correctClass,
-      incorrectClass, disabled, score } = this.state;
+      incorrectClass, disabled } = this.state;
     if (loading) {
       return <p>Carregando ...</p>;
     }
@@ -154,7 +159,8 @@ Questions.propTypes = {
   history: PropTypes.shape({
     push: PropTypes.func,
   }).isRequired,
-};
+  sumScore: PropTypes.func,
+}.isRequired;
 
 const mapDispatchToProps = (dispatch) => ({
   sumScore: (score) => dispatch(sumScoreAction(score)),
