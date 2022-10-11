@@ -1,12 +1,12 @@
 .correct {
-  box-sizing: border-box;
   border-color: rgb(6, 240, 15);
   border-style: solid;
   border-width: 3px;
+  box-sizing: border-box;
 }
 
 .incorrect {
-  border-color: rgb(255, 0, 0);
+  border-color: red;
   border-style: solid;
   border-width: 3px;
 }
