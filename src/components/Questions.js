@@ -126,6 +126,9 @@ class Questions extends Component {
   render() {
     const { results, counter, loading, correctClass,
       incorrectClass, disabled } = this.state;
+    const { history } = this.props;
+    const four = 4;
+
     if (loading) {
       return <p>Carregando ...</p>;
     }
@@ -181,9 +184,11 @@ class Questions extends Component {
               </button>
             )
           }
+          {
+            (counter === four) && history.push('/feedback')
+          }
         </div>
       </>
-
     );
   }
 }
