@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import '../styles/Questions.css';
-import { sumScoreAction } from '../redux/actions';
+import { sumAssertionAction, sumScoreAction } from '../redux/actions';
 
 class Questions extends Component {
   state = {
@@ -13,6 +13,7 @@ class Questions extends Component {
     incorrectClass: '',
     disabled: false,
     score: 0,
+    countCorrect: 0,
   };
 
   async componentDidMount() {
@@ -21,10 +22,13 @@ class Questions extends Component {
   }
 
   componentDidUpdate(prevProps, prevState) {
-    const { sumScore } = this.props;
-    const { score, counter } = this.state;
+    const { sumScore, sumAssertions } = this.props;
+    const { score, counter, countCorrect } = this.state;
     if (prevState.score !== score) {
       sumScore(score);
+    }
+    if (prevState.countCorrect !== countCorrect) {
+      sumAssertions(countCorrect);
     }
     if (prevState.counter !== counter) {
       this.timeOut();
@@ -42,7 +46,7 @@ class Questions extends Component {
     e.preventDefault();
     const { target } = e;
     const { sumScore } = this.props;
-    const { results, counter, score } = this.state;
+    const { results, counter, score, countCorrect } = this.state;
     const { difficulty } = results[counter];
     console.log(difficulty);
     if (target.id) {
@@ -50,7 +54,9 @@ class Questions extends Component {
         correctClass: 'correct',
         incorrectClass: 'incorrect',
         disabled: true,
+        countCorrect: countCorrect + 1,
       }, () => this.handleScore(difficulty));
+      // sumAssertions(countCorrect);
     } else {
       this.setState({
         correctClass: 'correct', incorrectClass: 'incorrect', disabled: true,
@@ -198,12 +204,14 @@ class Questions extends Component {
 Questions.propTypes = {
   history: PropTypes.shape({
     push: PropTypes.func,
-  }).isRequired,
+  }),
+  sumAssertionAction: PropTypes.func,
   sumScore: PropTypes.func,
 }.isRequired;
 
 const mapDispatchToProps = (dispatch) => ({
   sumScore: (score) => dispatch(sumScoreAction(score)),
+  sumAssertions: (correct) => dispatch(sumAssertionAction(correct)),
 });
 
 export default connect(null, mapDispatchToProps)(Questions);
