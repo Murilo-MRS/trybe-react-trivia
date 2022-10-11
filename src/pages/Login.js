@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
 import logo from '../trivia.png';
 import { loginAction } from '../redux/actions';
+import fetchData from '../services/fetchApi';
 
 class Login extends React.Component {
   state = {
@@ -14,9 +15,11 @@ class Login extends React.Component {
     openSettings: false,
   };
 
-  handleClick = (event) => {
+  handleClick = async (event) => {
     event.preventDefault();
-    this.fetchToken();
+    // this.fetchToken();
+    const token = await fetchData();
+    localStorage.setItem('token', token.token);
     this.setState({ playButton: true });
 
     // const { name, email } = this.state;
@@ -24,13 +27,13 @@ class Login extends React.Component {
     dispatch(loginAction(this.state));
   };
 
-  fetchToken = async () => {
-    const response = await fetch('https://opentdb.com/api_token.php?command=request');
-    const result = await response.json();
-    const token = await result.token;
+  // fetchToken = async () => {
+  //   const response = await fetch('https://opentdb.com/api_token.php?command=request');
+  //   const result = await response.json();
+  //   const token = await result.token;
 
-    localStorage.setItem('token', token);
-  };
+  //   localStorage.setItem('token', token);
+  // };
 
   settingsBtn = () => {
     // element.preventDefault();
