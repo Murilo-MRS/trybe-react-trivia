@@ -10,10 +10,15 @@ class Questions extends Component {
     loading: true,
     correctClass: '',
     incorrectClass: '',
+    disabled: false,
   };
 
   async componentDidMount() {
     await this.validateCode();
+    const interval = 30000;
+    setTimeout(() => {
+      this.setState({ disabled: true });
+    }, interval);
   }
 
   handleAnswer = (e) => {
@@ -55,7 +60,8 @@ class Questions extends Component {
   };
 
   render() {
-    const { results, counter, loading, correctClass, incorrectClass } = this.state;
+    const { results, counter, loading, correctClass,
+      incorrectClass, disabled } = this.state;
     if (loading) {
       return <p>Carregando ...</p>;
     }
@@ -81,6 +87,7 @@ class Questions extends Component {
               className={ correctClass }
               key={ answer }
               onClick={ this.handleAnswer }
+              disabled={ disabled }
             >
               {answer}
             </button>
@@ -91,6 +98,7 @@ class Questions extends Component {
               className={ incorrectClass }
               key={ answer }
               onClick={ this.handleAnswer }
+              disabled={ disabled }
             >
               {answer}
             </button>
