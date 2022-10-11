@@ -1,9 +1,10 @@
-import { LOGIN_ACTION, RECEIVE_HASH } from '../actions';
+import { LOGIN_ACTION, RECEIVE_HASH, SAVE_SCORE } from '../actions';
 
 const INITIAL_STATE = {
   name: '',
   gravatarEmail: '',
   url: '',
+  score: 0,
 };
 
 function userReducer(state = INITIAL_STATE, action) {
@@ -18,6 +19,12 @@ function userReducer(state = INITIAL_STATE, action) {
     return {
       ...state,
       url: `https://www.gravatar.com/avatar/${action.payload}`,
+    };
+  case SAVE_SCORE:
+    console.log(action.payload);
+    return {
+      ...state,
+      score: action.payload,
     };
   default:
     return state;

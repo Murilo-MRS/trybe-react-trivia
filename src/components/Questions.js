@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import '../styles/Questions.css';
+import { sumScoreAction } from '../redux/actions';
 
 class Questions extends Component {
   state = {
@@ -11,6 +12,7 @@ class Questions extends Component {
     correctClass: '',
     incorrectClass: '',
     disabled: false,
+    score: 0,
   };
 
   async componentDidMount() {
@@ -21,13 +23,54 @@ class Questions extends Component {
     }, interval);
   }
 
+  componentDidUpdate(prevProps, prevState) {
+    const { sumScore } = this.props;
+    const { score } = this.state;
+    if (prevState.score !== score) {
+      sumScore(score);
+    }
+  }
+
   handleAnswer = (e) => {
     e.preventDefault();
     const { target } = e;
+    const { sumScore } = this.props;
+    const { results, counter, score } = this.state;
+    const { difficulty } = results[counter];
+    console.log(difficulty);
     if (target.id) {
-      this.setState({ correctClass: 'correct', incorrectClass: 'incorrect' });
+      this.setState({
+        correctClass: 'correct',
+        incorrectClass: 'incorrect',
+      }, () => this.handleScore(difficulty));
     } else {
       this.setState({ correctClass: 'correct', incorrectClass: 'incorrect' });
+    }
+    sumScore(score);
+  };
+
+  handleScore = (difficulty) => {
+    const pointsBase = 10;
+    const pointsEasy = 1;
+    const pointsMedium = 2;
+    const pointsHard = 3;
+
+    const { score } = this.state;
+    switch (difficulty) {
+    case 'easy':
+      this.setState({ score: score + (pointsBase + (pointsEasy)) });
+      // sumScore(score);
+      break;
+    case 'medium':
+      this.setState({ score: score + (pointsBase + (pointsMedium)) });
+      // sumScore(score);
+      break;
+    case 'hard':
+      this.setState({ score: score + (pointsBase + (pointsHard)) });
+      // sumScore(score);
+      break;
+    default:
+      return score;
     }
   };
 
@@ -69,6 +112,8 @@ class Questions extends Component {
       ...results[counter].incorrect_answers];
     const randomAns = this.shuffle(answers);
     const correct = results[counter].correct_answer;
+    // const difficulty = results[counter].difficulty;
+    // console.log(results[counter].difficulty);
     return (
       <>
         <div>Questions</div>
@@ -114,6 +159,11 @@ Questions.propTypes = {
   history: PropTypes.shape({
     push: PropTypes.func,
   }).isRequired,
-};
+  sumScore: PropTypes.func,
+}.isRequired;
 
-export default connect()(Questions);
+const mapDispatchToProps = (dispatch) => ({
+  sumScore: (score) => dispatch(sumScoreAction(score)),
+});
+
+export default connect(null, mapDispatchToProps)(Questions);
