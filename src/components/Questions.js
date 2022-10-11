@@ -127,7 +127,7 @@ class Questions extends Component {
     const { results, counter, loading, correctClass,
       incorrectClass, disabled } = this.state;
     const { history } = this.props;
-    const four = 4;
+    const four = 5;
 
     if (loading) {
       return <p>Carregando ...</p>;
