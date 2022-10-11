@@ -16,27 +16,17 @@ class Login extends React.Component {
   };
 
   handleClick = async (event) => {
+    const { loginActionDispatch } = this.props;
+    const { email, name } = this.state;
     event.preventDefault();
-    // this.fetchToken();
     const token = await fetchData();
     localStorage.setItem('token', token.token);
     this.setState({ playButton: true });
 
-    // const { name, email } = this.state;
-    const { dispatch } = this.props;
-    dispatch(loginAction(this.state));
+    loginActionDispatch({ email, name });
   };
 
-  // fetchToken = async () => {
-  //   const response = await fetch('https://opentdb.com/api_token.php?command=request');
-  //   const result = await response.json();
-  //   const token = await result.token;
-
-  //   localStorage.setItem('token', token);
-  // };
-
   settingsBtn = () => {
-    // element.preventDefault();
     this.setState({ openSettings: true });
   };
 
@@ -96,9 +86,8 @@ Login.propTypes = {
   }).isRequired,
 }.isRequired;
 
-// const mapDispatchToProps = (dispatch) => ({
-//   fetchToken: () => dispatch(fetchApiAction()),
-// });
+const mapDispatchToProps = (dispatch) => ({
+  loginActionDispatch: (state) => dispatch(loginAction(state)),
+});
 
-export default connect()(Login);
-/* export default Login; */
+export default connect(null, mapDispatchToProps)(Login);
