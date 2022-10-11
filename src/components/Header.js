@@ -12,12 +12,12 @@ class Header extends Component {
   }
 
   render() {
-    const { name, url } = this.props;
+    const { name, url, score } = this.props;
     return (
       <div>
         <img src={ url } data-testid="header-profile-picture" alt="gravatar" />
         <span data-testid="header-player-name">{ name }</span>
-        <span data-testid="header-score">0</span>
+        <span data-testid="header-score">{score}</span>
       </div>
     );
   }
@@ -27,6 +27,7 @@ const mapStateToProps = (state) => ({
   name: state.player.name,
   email: state.player.gravatarEmail,
   url: state.player.url,
+  score: state.player.score,
 });
 
 const mapDispatchToProps = (dispatch) => ({
