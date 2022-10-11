@@ -17,19 +17,26 @@ class Questions extends Component {
 
   async componentDidMount() {
     await this.validateCode();
-    const interval = 30000;
-    setTimeout(() => {
-      this.setState({ disabled: true });
-    }, interval);
+    this.timeOut();
   }
 
   componentDidUpdate(prevProps, prevState) {
     const { sumScore } = this.props;
-    const { score } = this.state;
+    const { score, counter } = this.state;
     if (prevState.score !== score) {
       sumScore(score);
     }
+    if (prevState.counter !== counter) {
+      this.timeOut();
+    }
   }
+
+  timeOut = () => {
+    const interval = 30000;
+    setTimeout(() => {
+      this.setState({ disabled: true });
+    }, interval);
+  };
 
   handleAnswer = (e) => {
     e.preventDefault();
@@ -42,9 +49,12 @@ class Questions extends Component {
       this.setState({
         correctClass: 'correct',
         incorrectClass: 'incorrect',
+        disabled: true,
       }, () => this.handleScore(difficulty));
     } else {
-      this.setState({ correctClass: 'correct', incorrectClass: 'incorrect' });
+      this.setState({
+        correctClass: 'correct', incorrectClass: 'incorrect', disabled: true,
+      });
     }
     sumScore(score);
   };
@@ -102,6 +112,17 @@ class Questions extends Component {
     return array;
   };
 
+  nextQuestion = (e) => {
+    e.preventDefault();
+    const { counter } = this.state;
+    this.setState({
+      counter: counter + 1,
+      disabled: false,
+      correctClass: '',
+      incorrectClass: '',
+    });
+  };
+
   render() {
     const { results, counter, loading, correctClass,
       incorrectClass, disabled } = this.state;
@@ -148,6 +169,18 @@ class Questions extends Component {
               {answer}
             </button>
           )))}
+          {
+            (disabled)
+            && (
+              <button
+                type="button"
+                data-testid="btn-next"
+                onClick={ this.nextQuestion }
+              >
+                Next
+              </button>
+            )
+          }
         </div>
       </>
 
