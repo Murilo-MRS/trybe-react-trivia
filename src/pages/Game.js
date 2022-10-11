@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import Header from '../components/Header';
 import Questions from '../components/Questions';
 
-class Trivia extends Component {
+class Game extends Component {
   render() {
     const { history } = this.props;
     return (
@@ -15,10 +15,10 @@ class Trivia extends Component {
     );
   }
 }
-Trivia.propTypes = {
+Game.propTypes = {
   history: PropTypes.shape({
     push: PropTypes.func,
   }).isRequired,
 };
 
-export default Trivia;
+export default Game;
