@@ -114,7 +114,14 @@ class Questions extends Component {
 
   nextQuestion = (e) => {
     e.preventDefault();
+    const { history } = this.props;
     const { counter } = this.state;
+    const four = 4;
+
+    if (counter === four) {
+      history.push('/feedback');
+    }
+
     this.setState({
       counter: counter + 1,
       disabled: false,
@@ -126,8 +133,6 @@ class Questions extends Component {
   render() {
     const { results, counter, loading, correctClass,
       incorrectClass, disabled } = this.state;
-    const { history } = this.props;
-    const four = 5;
 
     if (loading) {
       return <p>Carregando ...</p>;
@@ -183,9 +188,6 @@ class Questions extends Component {
                 Next
               </button>
             )
-          }
-          {
-            (counter === four) && history.push('/feedback')
           }
         </div>
       </>
