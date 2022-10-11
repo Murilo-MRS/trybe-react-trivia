@@ -1,17 +1,30 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import '../styles/Questions.css';
 
 class Questions extends Component {
   state = {
     results: [],
     counter: 0,
     loading: true,
+    correctClass: '',
+    incorrectClass: '',
   };
 
   async componentDidMount() {
     await this.validateCode();
   }
+
+  handleAnswer = (e) => {
+    e.preventDefault();
+    const { target } = e;
+    if (target.id) {
+      this.setState({ correctClass: 'correct', incorrectClass: 'incorrect' });
+    } else {
+      this.setState({ correctClass: 'correct', incorrectClass: 'incorrect' });
+    }
+  };
 
   validateCode = async () => {
     const invalidToken = 3;
@@ -42,7 +55,7 @@ class Questions extends Component {
   };
 
   render() {
-    const { results, counter, loading } = this.state;
+    const { results, counter, loading, correctClass, incorrectClass } = this.state;
     if (loading) {
       return <p>Carregando ...</p>;
     }
@@ -61,11 +74,24 @@ class Questions extends Component {
         </h2>
         <div data-testid="answer-options">
           {randomAns.map((answer) => (answer === correct ? (
-            <button type="button" data-testid="correct-answer" key={ answer }>
+            <button
+              type="button"
+              data-testid="correct-answer"
+              id="correct"
+              className={ correctClass }
+              key={ answer }
+              onClick={ this.handleAnswer }
+            >
               {answer}
             </button>
           ) : (
-            <button type="button" data-testid="wrong-answer" key={ answer }>
+            <button
+              type="button"
+              data-testid="wrong-answer"
+              className={ incorrectClass }
+              key={ answer }
+              onClick={ this.handleAnswer }
+            >
               {answer}
             </button>
           )))}
