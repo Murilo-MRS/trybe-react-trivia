@@ -1,12 +1,7 @@
 .correct {
-  border-color: rgb(6, 240, 15);
-  border-style: solid;
-  border-width: 3px;
-  box-sizing: border-box;
+  border: 3px solid rgb(6, 240, 15);
 }
 
 .incorrect {
-  border-color: red;
-  border-style: solid;
-  border-width: 3px;
+  border: 3px solid red;
 }
