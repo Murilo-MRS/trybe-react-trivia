@@ -21,9 +21,10 @@ function userReducer(state = INITIAL_STATE, action) {
       url: `https://www.gravatar.com/avatar/${action.payload}`,
     };
   case SAVE_SCORE:
+    console.log(action.payload);
     return {
       ...state,
-      score: state.score + action.payload,
+      score: action.payload,
     };
   default:
     return state;

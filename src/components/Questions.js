@@ -23,6 +23,14 @@ class Questions extends Component {
     }, interval);
   }
 
+  componentDidUpdate(prevProps, prevState) {
+    const { sumScore } = this.props;
+    const { score } = this.state;
+    if (prevState.score !== score) {
+      sumScore(score);
+    }
+  }
+
   handleAnswer = (e) => {
     e.preventDefault();
     const { target } = e;
